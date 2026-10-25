@@ -89,6 +89,7 @@ resource "azurerm_data_factory_pipeline" "alpha_factory_orchestrator" {
     databricks_job_id = "938869195869371" # Replace with your actual Databricks Serverless Job ID later
   }
 
+
 activities_json = jsonencode([
     {
       name      = "TriggerDatabricksServerlessWorkflow",
