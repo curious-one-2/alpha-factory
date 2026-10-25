@@ -60,10 +60,9 @@ resource "azurerm_role_assignment" "user_df_contributor" {
 }
 # -------------------------------------------------------------------------
 
-
 # 5. Look up your EXISTING Databricks workspace (No new workspace is created)
 data "azurerm_databricks_workspace" "existing_dbw" {
-  name                = "azure_db_ws"     # <-- CHANGE TO YOUR EXISTING WORKSPACE NAME
+  name                = "azure_db_ws"   # <-- CHANGE TO YOUR EXISTING WORKSPACE NAME
   resource_group_name = "rg-databricks" # <-- CHANGE TO ITS RESOURCE GROUP
 }
 
@@ -72,7 +71,7 @@ resource "azurerm_data_factory_linked_custom_service" "databricks_custom" {
   name            = "ls-databricks-rest-api"
   data_factory_id = azurerm_data_factory.adf.id
   type            = "AzureDatabricks"
-  
+
   type_properties_json = jsonencode({
     domain              = "https://${data.azurerm_databricks_workspace.existing_dbw.workspace_url}"
     authentication      = "ManagedIdentity"
@@ -82,15 +81,14 @@ resource "azurerm_data_factory_linked_custom_service" "databricks_custom" {
 
 # 7. ADF Pipeline Triggering Databricks Serverless Job via Web Activity (Pattern B)
 resource "azurerm_data_factory_pipeline" "alpha_factory_orchestrator" {
-  name                = "pl-alpha-factory-end-to-end"
-  data_factory_id     = azurerm_data_factory.adf.id
+  name            = "pl-alpha-factory-end-to-end"
+  data_factory_id = azurerm_data_factory.adf.id
 
   parameters = {
     databricks_job_id = "938869195869371" # Replace with your actual Databricks Serverless Job ID later
   }
 
-
-activities_json = jsonencode([
+  activities_json = jsonencode([
     {
       name      = "TriggerDatabricksServerlessWorkflow",
       type      = "WebActivity",
