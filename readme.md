@@ -137,6 +137,6 @@ PNL
 
 ## 👤 Contact & Author
 
-* **Name:** [Your Name]
-* **LinkedIn:** [Your LinkedIn Profile]
-* **Email:** [Your Email]
+* **Name:** Arash Sadri
+* **LinkedIn:** https://ca.linkedin.com/in/arash-sadri-3b70a9272
+* **Email:** asadri@cleardwsolutions.com
