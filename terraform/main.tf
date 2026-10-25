@@ -25,10 +25,10 @@ resource "azurerm_eventhub_namespace" "eh_namespace" {
   resource_group_name = azurerm_resource_group.rg.name
   sku                 = "Standard"
   capacity            = 1 # Locked to 1 Throughput Unit for low cost
-  
+
   # Cost control: Prevent infinite auto-scaling cost spikes
-  auto_inflate_enabled  = true
-  maximum_throughput_units = 2 
+  auto_inflate_enabled     = true
+  maximum_throughput_units = 2
 }
 
 # 3. Kafka Topic for Market Ticks
@@ -42,8 +42,8 @@ resource "azurerm_eventhub" "eh_topic" {
 
 # 4. Azure Data Factory for Orchestration
 resource "azurerm_data_factory" "adf" {
-  name                = "adf-alpha-factory-dev"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  name                   = "adf-alpha-factory-dev"
+  location               = azurerm_resource_group.rg.location
+  resource_group_name    = azurerm_resource_group.rg.name
   public_network_enabled = true
 }
