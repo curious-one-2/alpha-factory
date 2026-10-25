@@ -76,21 +76,26 @@ This project demonstrates production-ready infrastructure provisioning via **Ter
 
 Layered Architecture
 
-Bronze: Ingests raw data from Azure Data Hub using Databricks Auto Loader. These tables act as the "Source of Truth" with minimal transformation.
+Bronze: 
+Ingests raw data from Azure Data Hub using Databricks Auto Loader. These tables act as the "Source of Truth" with minimal transformation.
 Applied schema enforcement rejecting any record that does not meet the schema for further observation
-Silver: Applies data cleaning and conforming the data for the gold layer tables.
+
+Silver: 
+Applies data cleaning and conforming the data for the gold layer tables.
+
 Gold (Star Schema):
-Date dimension
-Time dimension
-Instrument dimension - Details about stocks, options, or crypto pairs (ticker, asset class, sector).
-Book/portfolio dimension - dentifies the trading strategy, book, or desk owner.
-Execution Venue dimension - Tracks which exchange, dark pool, or broker executed the trade.
-Market Regime dimension - Categorizes market conditions (e.g., high volatility vs. low volatility, trending vs. mean-reverting).
+* Date dimension
+* Time dimension
+* Instrument dimension - Details about stocks, options, or crypto pairs (ticker, asset class, sector).
+* Book/portfolio dimension - dentifies the trading strategy, book, or desk owner.
+* Execution Venue dimension - Tracks which exchange, dark pool, or broker executed the trade.
+* Market Regime dimension - Categorizes market conditions (e.g., high volatility vs. low volatility, trending vs. mean-reverting).
 
-Risk and performance fact - stores risk metrics calculated at the time of the event or daily snapshot
-Execution and slippage fact - stores slippage metrics
-PNL explain fact - store profit and loss metrics
+* Risk and performance fact - stores risk metrics calculated at the time of the event or daily snapshot
+* Execution and slippage fact - stores slippage metrics
+* PNL explain fact - store profit and loss metrics
 
+Error handling:
 There are 2 bronze and silver layer reject tables to contain rejected records for further analysis and impose data quality
 
 
