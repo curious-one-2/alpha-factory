@@ -111,6 +111,8 @@ CLUSTER BY (execution_timestamp, symbol);
 CREATE TABLE IF NOT EXISTS ${catalog}.${schema}.gold_fact_pnl_explain (
     date_key INT NOT NULL,
     time_key INT NOT NULL,
+    instrument_key INT NOT NULL,
+    regime_key INT NOT NULL,
     pnl_fact_id STRING NOT NULL,
     execution_id STRING NOT NULL,
     symbol STRING NOT NULL,

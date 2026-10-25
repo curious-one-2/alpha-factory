@@ -2,6 +2,9 @@ bundle:
   name: alpha-factory-pipeline
 
 
+workspace:
+  root_path: /Shared/alpha-factory/${workspace.current_user.userName}/${bundle.environment}
+
 # 1. Globally declare the variables here first
 variables:
   catalog_name:
@@ -19,6 +22,8 @@ resources:
     alpha_factory_daily_workflow:
       name: "[${bundle.target}] Alpha Factory Workflow"
       # Add the environments block here so tasks can reference it
+      run_as:
+        service_principal_name: "5d13f7d7-0567-429c-9880-320e9555e5fc"
       environments:
         - environment_key: default
           spec:
