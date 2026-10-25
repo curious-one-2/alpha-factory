@@ -1,0 +1,23 @@
+resources:
+  jobs:
+    environment_setup_job:
+      name: "Alpha Factory - Environment Setup"
+      
+      # Define serverless environment specifications for this job too
+      environments:
+        - environment_key: default
+          spec:
+            environment_version: "4"
+            dependencies:
+              - "pydantic>=2.0"
+              - "pyyaml>=6.0"
+
+      tasks:
+        - task_key: run_orchestrator
+          environment_key: default
+          notebook_task:
+            notebook_path: ../src/setup/00_setup_orchestrator.ipynb
+            base_parameters:
+              env: "${bundle.target}"
+              catalog: "${bundle.target}_alpha_factory"
+              schema: "trading"

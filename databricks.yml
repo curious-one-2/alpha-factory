@@ -1,0 +1,94 @@
+bundle:
+  name: alpha-factory-pipeline
+
+
+# 1. Globally declare the variables here first
+variables:
+  catalog_name:
+    description: "The Unity Catalog name for the active environment"
+    default: "alpha_factory_dev"
+  schema_name:
+    description: "The schema name for the active environment"
+    default: "trading"
+
+include:
+  - "resources/*.yml"
+
+resources:
+  jobs:
+    alpha_factory_daily_workflow:
+      name: "[${bundle.target}] Alpha Factory Workflow"
+      # Add the environments block here so tasks can reference it
+      environments:
+        - environment_key: default
+          spec:
+            environment_version: "4"
+            dependencies:
+              - "pydantic>=2.0"
+              - "pyyaml>=6.0"
+      tasks:
+        - task_key: bronze_ingestion
+          environment_key: default
+          notebook_task:
+            notebook_path: ./src/bronze/01_bronze_orchestrator.ipynb
+            base_parameters:
+              env: "${bundle.target}"
+              catalog: "dev_catalog"
+              schema: "alpha_factory"
+        - task_key: silver_transformation
+          depends_on:
+            - task_key: bronze_ingestion
+          environment_key: default
+          notebook_task:
+            notebook_path: ./src/silver/01_silver_orchestrator.ipynb
+            base_parameters:
+              env: "${bundle.target}"
+              catalog: "dev_catalog"
+              schema: "alpha_factory"
+
+        - task_key: gold_star_schema
+          depends_on:
+            - task_key: silver_transformation
+          environment_key: default
+          notebook_task:
+            notebook_path: ./src/gold/01_gold_orchestrator.ipynb
+            base_parameters:
+              env: "${bundle.target}"
+              catalog: "dev_catalog"
+              schema: "alpha_factory"
+
+targets:
+  setup:
+    mode: development
+    workspace:
+      host: https://adb-7405611507767042.2.azuredatabricks.net
+      profile: "azure_databricks"
+    variables:
+      catalog_name: "dev_alpha_factory"
+      schema_name: "trading"
+
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://adb-7405611507767042.2.azuredatabricks.net
+      profile: "azure_databricks"
+
+
+  uat:
+    mode: development
+    workspace:
+      host: https://adb-7405611507767042.2.azuredatabricks.net
+      profile: "azure_databricks"
+    variables:
+      catalog_name: "uat_alpha_factory"
+      schema_name: "trading"
+
+  prod:
+    mode: production
+    workspace:
+      host: https://adb-7405611507767042.2.azuredatabricks.net
+      profile: "azure_databricks"
+    variables:
+      catalog_name: "prod_alpha_factory"
+      schema_name: "trading"

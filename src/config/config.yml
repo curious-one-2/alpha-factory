@@ -1,0 +1,40 @@
+local:
+  environment: "local"
+  pipeline_settings:
+    spark:
+      app_name: "AlphaFactory"
+      master: "local[*]"
+      sql_shuffle_partitions: 4
+  storage_paths:
+    landing: "data/landing"
+    bronze: "data/bronze"
+    silver: "data/silver"
+    gold: "data/gold"
+    archive: "data/archive"
+
+dev:
+  environment: "dev"
+  unity_catalog:
+    catalog: "dev_catalog"
+    schema: "dev_alpha_factory"
+  storage_paths:
+    # Only the raw landing volume needs a physical path
+    landing_volume: "/Volumes/dev_catalog/alpha_factory_app/raw_data"
+
+uat:
+  environment: "uat"
+  unity_catalog:
+    catalog: "dev_catalog"
+    schema: "uat_alpha_factory"
+  storage_paths:
+    # Only the raw landing volume needs a physical path
+    landing_volume: "/Volumes/uat_catalog/alpha_factory_app/raw_data"
+
+prod:
+  environment: "prod"
+  unity_catalog:
+    catalog: "dev_catalog"
+    schema: "prod_alpha_factory"
+  storage_paths:
+    # Only the raw landing volume needs a physical path
+    landing_volume: "/Volumes/prod_catalog/alpha_factory_app/raw_data"
