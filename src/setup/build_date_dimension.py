@@ -1,14 +1,5 @@
 from pyspark.sql import SparkSession, functions as F, DataFrame
 import datetime
-#from utils.spark_session import get_spark_session
-#from core.config  import settings
-
-# get access to the src folder
-#import sys
-#from pathlib import Path
-#sys.path.append(str(Path.cwd().parent))
-
-#gold_layer_path = settings["storage_paths"]["gold"]
 
 def generate_date_dim(spark: SparkSession, catalog: str, schema: str, start_date: str='2026-10-01', end_date: str='2030-10-31'):
     """
@@ -74,9 +65,3 @@ def generate_date_dim(spark: SparkSession, catalog: str, schema: str, start_date
     )
 
     print(f"Date_dimension successfully generated and saved. Total records: {final_dim_date.count()}")
-    #return None
-
-#if __name__ == "__main__":
-#    spark = get_spark_session()
-   # spark = SparkSession.builder.appName("BuildDimDate").getOrCreate()
- #   generate_date_dim(spark)

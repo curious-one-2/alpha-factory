@@ -1,17 +1,7 @@
 import datetime
-#from pathlib import Path
-#import sys
 
-# Add project root to sys.path so internal imports resolve correctly
-#sys.path.append(str(Path.cwd()))
-
-#from core.config import settings
 from pyspark.sql import DataFrame, SparkSession
 import pyspark.sql.functions as F
-#from utils.spark_session import get_spark_session
-
-#gold_layer_path = settings["storage_paths"]["gold"]
-
 
 def generate_time_dim(
     spark: SparkSession, catalog: str, schema: str, start_time: str = "00:00", end_time: str = "23:59"
@@ -72,8 +62,3 @@ def generate_time_dim(
       "Time dimension successfully generated and saved. Total records:"
       f" {final_dim_time.count()}"
   )
-
-
-#if __name__ == "__main__":
-#  spark = get_spark_session()
-#  generate_time_dim(spark)
